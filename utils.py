@@ -156,3 +156,35 @@ def get_distance_by_lnglat(lng1, lat1, lng2, lat2):
     s = round(s * 10000) / 10000
 
     return s*1000 # m
+
+
+# -------------- 编码相关------------
+
+def to_unicode(s):
+    if isinstance(s, unicode):
+        return s
+    else:
+        # 尝试utf-8
+        try:
+            return s.decode("utf-8")
+        except UnicodeDecodeError:
+            pass
+        # 尝试gbk
+        try:
+            return s.decode("gbk")
+        except UnicodeDecodeError:
+            pass
+        # 其他编码
+        print "Err: not a utf-8 or gbk string"
+        assert(1 == 0)
+
+def to_utf8(s):
+    uni_s = to_unicode(s)
+    return uni_s.encode("utf-8")
+
+def to_gbk(s):
+    uni_s = to_unicode(s)
+    return uni_s.encode("utf-8")
+            
+    
+
