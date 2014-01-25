@@ -184,7 +184,7 @@ def to_utf8(s):
 
 def to_gbk(s):
     uni_s = to_unicode(s)
-    return uni_s.encode("utf-8")
+    return uni_s.encode("gbk")
             
     
 
