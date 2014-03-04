@@ -24,7 +24,7 @@ class dotdict(dict):
 class dotdictex(dotdict):
     '''dotdict 的扩展，支持多级直接赋值
 
-    >>> ddx = dotdict.dotdictex()
+    >>> ddx = dotdictex()
     >>> ddx[1][1] = 1
     >>> ddx.a.a = 'a'
     >>> ddx
