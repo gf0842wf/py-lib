@@ -15,7 +15,6 @@ def prob_choice_i(probs, seq):
     seq_ = reduce(add, [ps[0] * [ps[1]] for ps in zip(probs, seq)])
     idx_ = random.choice(xrange(len(seq_)))
     e = seq_[idx_]
-    i = [ep for ep in enumerate(probs) if idx_ % ep[1] > 0]
     for i, p in enumerate(probs):
         if idx_ <= p - 1:
             idx = i
