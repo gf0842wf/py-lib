@@ -188,3 +188,11 @@ def to_gbk(s):
             
     
 
+def IDGenerator():
+    i = 0
+    wall = 1 << 31
+    while True:
+        i += 1
+        if i > wall:
+            i = 1
+        yield i
