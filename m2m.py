@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 
-import cPickle as pickle
-
 
 class M2M(object):
     """多对多关系对象
@@ -61,12 +59,6 @@ class M2M(object):
             return ks if ks else False
         except KeyError:
             return None
-
-    def dumps(self):
-        return pickle.dumps(self.m2m)
-
-    def loads(self, s):
-        self.m2m = pickle.loads(s)
 
 
 if __name__ == "__main__":
