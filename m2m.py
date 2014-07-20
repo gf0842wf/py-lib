@@ -29,6 +29,16 @@ class M2M(object):
             return True
         except KeyError:
             return False
+        
+    def remove_from_fields(self, obj_id, value):
+        try:
+            for key in self.m2m[obj_id]:
+                try:
+                    self.m2m[obj_id][key].remove(value)
+                except KeyError:
+                    continue
+        except KeyError:
+            return False
 
     def remove_set(self, obj_id, key):
         """删除obj_id->key下的所有值"""
@@ -38,13 +48,13 @@ class M2M(object):
         except KeyError:
             return False
                 
-    def isInKey(self, obj_id, key, value):
+    def is_in_one(self, obj_id, key, value):
         try:
             return value in self.m2m[obj_id][key]
         except KeyError:
             return None
                 
-    def isInAny(self, obj_id, value):
+    def is_in_any(self, obj_id, value):
         try:
             o2m = self.m2m[obj_id]
             ks = [k for k, v in o2m.iteritem() if value in v]
