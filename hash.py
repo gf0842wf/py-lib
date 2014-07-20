@@ -69,7 +69,7 @@ class Hash(object):
         except KeyError:
             return False
         
-    def remove_one_fields(self, key, value):
+    def remove_from_fields(self, key, value):
         """删除该每个field中删除value
         """
         try:
