@@ -49,46 +49,68 @@ class Hash(object):
         
     def hmget(self, key, fields):
         """hash muti get
-        >>> user.hmget(1001, ("public", "private"))
+        >>> users.hmget(1001, ("public", "private"))
         """
         self.m2m.setdefault(key, {})
         return [self.m2m[key].get(f, None) for f in fields]
 
-    def remove(self, key, field, value):
+    def remove(self, key, field, values):
+        """ remove a value/values from key->field 
+        >>> users.remove(1001, "public", 1002)
+        >>> users.remove(1001, "private", [1004, 1005])
+        """
         try:
-            self.m2m[key][field].remove(value)
+            if isinstance(values, (list, set, tuple)):
+                self.m2m[key][field].difference_update(values)
+            else:
+                self.m2m[key][field].remove(values)
             return True
         except KeyError:
             return False
     
     def remove_field(self, key, field):
-        """删除 key->field 下的所有值"""
+        """删除 key->field 下的所有值
+        >>> users.remove_field(1001, "public")
+        """
         try:
             self.m2m[key][field] = set()
             return True
         except KeyError:
             return False
         
-    def remove_from_fields(self, key, value):
-        """删除该每个field中删除value
+    def remove_from_fields(self, key, values):
+        """把每个field下的value/values都删除
+        >>> users.remove_from_fields(1001, 1002)
+        >>> users.remove_from_fields(1001, [1002, 1003])
         """
         try:
             for field in self.m2m[key]:
                 try:
-                    self.m2m[key][field].remove(value)
+                    if isinstance(values, (list, set, tuple)):
+                        self.m2m[key][field].difference_update(values)
+                    else:
+                        self.m2m[key][field].remove(values)
                 except KeyError:
                     continue
         except KeyError:
             return False
+        return True
         
 
 if __name__ == "__main__":
     users = Hash()
     users.hset(1001, "public", 1002)
+    users.hset(1001, "public", 1006)
     users.hset(1001, "private", [1003, 1004, 1005])
-    print users.hget(1001, "private")
     print users.m2m
-    print users.remove(1001, "public", 1002)
+    print users.hget(1001, "private")
+    print users.remove(1001, "public", [1002, 1006])
+    print users.m2m
+    
+    import cPickle as pickle
+    s = pickle.dumps(users)
+    users2 = pickle.loads(s)
+    print users2.hget(1001, "private")
 
 
 __all__ = ["Hash"]
